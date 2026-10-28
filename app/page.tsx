@@ -4,6 +4,7 @@ import { WhatIDo } from "@/components/sections/WhatIDo";
 import { TechStack } from "@/components/sections/TechStack";
 import { Projects } from "@/components/sections/Projects";
 import { About } from "@/components/sections/About";
+import { InteractiveTerminal } from "@/components/sections/InteractiveTerminal";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
 
@@ -16,6 +17,7 @@ export default function Home() {
       <TechStack />
       <Projects />
       <About />
+      <InteractiveTerminal />
       <Contact />
       <Footer />
     </>

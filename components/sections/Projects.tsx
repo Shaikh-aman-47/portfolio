@@ -18,80 +18,15 @@ import {
   MonitorPlay, 
   Cloud, 
   Network,
-  Cpu,
   Layers,
   Lock,
-  Workflow
+  Workflow,
+  ExternalLink
 } from "lucide-react";
 import Link from "next/link";
 import { buttonBaseStyles, buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-
-const PROJECT_01 = {
-  id: "01",
-  title: "Three-Tier Application Deployment on AWS EKS",
-  label: "AWS / Kubernetes / Terraform",
-  githubUrl: "https://github.com/Shaikh-aman-47",
-  description:
-    "Provisioned and deployed a three-tier application environment on Amazon EKS using Terraform, Docker and Kubernetes.",
-  details:
-    "Provisioned AWS infrastructure for an Amazon EKS environment using Terraform, containerized application components with Docker, and deployed the workloads to Kubernetes using Deployments, Services, and Secrets.",
-  capabilities: [
-    "Terraform-managed AWS infrastructure",
-    "Dockerized application components",
-    "Amazon ECR image workflow",
-    "Kubernetes Deployments and Services",
-    "Secrets management",
-    "Helm-based deployment",
-    "Grafana monitoring",
-  ],
-  tech: ["AWS EKS", "Terraform", "Kubernetes", "Docker", "Amazon ECR", "VPC", "IAM", "Helm", "MongoDB", "Grafana"],
-};
-
-const PROJECT_02 = {
-  id: "02",
-  title: "Modular AWS Infrastructure with Terraform",
-  label: "Terraform / AWS / Infrastructure as Code",
-  githubUrl: "https://github.com/Shaikh-aman-47",
-  description:
-    "Built reusable Terraform infrastructure across development, staging and production environments.",
-  details:
-    "Created reusable Terraform modules to provision AWS infrastructure across separate development, staging and production environments. The infrastructure included EC2 instances, S3 buckets and DynamoDB tables, with Terraform remote state using Amazon S3 and DynamoDB state locking.",
-  capabilities: [
-    "Terraform modules",
-    "Variables & Outputs",
-    "Environment separation",
-    "Remote backend",
-    "S3 state storage",
-    "DynamoDB state locking",
-    "Infrastructure reuse",
-  ],
-  tech: ["Terraform", "AWS", "EC2", "S3", "DynamoDB", "VPC", "Terraform Modules"],
-  environments: [
-    { name: "DEV", spec: "2 × EC2 t2.micro • S3 • DynamoDB" },
-    { name: "STAGING", spec: "1 × EC2 t2.medium • S3 • DynamoDB" },
-    { name: "PRODUCTION", spec: "1 × EC2 t2.small • S3 • DynamoDB" },
-  ],
-};
-
-const PROJECT_03 = {
-  id: "03",
-  title: "Containerized Two-Tier Flask Application",
-  label: "Docker / Flask / MySQL",
-  githubUrl: "https://github.com/Shaikh-aman-47",
-  description:
-    "Containerized a Flask application and MySQL database using Docker and Docker networking.",
-  details:
-    "Built a two-tier application consisting of a Flask application and MySQL database running as separate Docker containers. Configured container networking and service communication to demonstrate containerized application architecture.",
-  capabilities: [
-    "Docker images & Dockerfiles",
-    "Multi-container networking",
-    "Service-to-service communication",
-    "Database containerization & persistence",
-    "Container lifecycle management",
-  ],
-  tech: ["Docker", "Docker Compose", "Flask", "MySQL", "Docker Networking"],
-};
+import { PROJECTS } from "@/lib/projects-data";
 
 const fadeUpVariant: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -103,8 +38,15 @@ const fadeUpVariant: Variants = {
 };
 
 export function Projects() {
+  const project01 = PROJECTS[0];
+  const project02 = PROJECTS[1];
+  const project03 = PROJECTS[2];
+
   return (
-    <Section id="work" className="bg-background relative overflow-hidden">
+    <Section id="projects" className="bg-background relative overflow-hidden">
+      {/* Invisible anchor target for backwards compatibility with #work */}
+      <span id="work" className="absolute -top-24 opacity-0 pointer-events-none" aria-hidden="true" />
+
       {/* Background ambient glow */}
       <div className="absolute top-1/4 left-1/3 w-[600px] h-[600px] bg-blue-600/[0.03] blur-[150px] pointer-events-none rounded-full" />
       
@@ -117,7 +59,7 @@ export function Projects() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold tracking-wider text-blue-300 backdrop-blur-sm"
           >
-            <span>SELECTED WORK</span>
+            <span>FEATURED PROJECTS</span>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -127,7 +69,7 @@ export function Projects() {
           >
             <SectionHeading className="mb-4">Projects built to learn by doing.</SectionHeading>
             <p className="text-base sm:text-lg text-muted leading-relaxed">
-              Hands-on projects focused on cloud infrastructure, containerization, Kubernetes and infrastructure automation.
+              Hands-on projects focused on cloud infrastructure, containerization, Kubernetes, and infrastructure automation.
             </p>
           </motion.div>
         </div>
@@ -146,23 +88,25 @@ export function Projects() {
             <div className="lg:w-1/2 flex flex-col">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs font-mono text-blue-400 font-bold bg-blue-500/10 border border-blue-500/30 px-2.5 py-0.5 rounded">
-                  {PROJECT_01.id}
+                  {project01.id}
                 </span>
                 <span className="text-xs font-mono text-muted/70 tracking-wide">
-                  {PROJECT_01.label}
+                  {project01.label}
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 leading-tight">
-                {PROJECT_01.title}
-              </h3>
+              <Link href={`/projects/${project01.slug}`} className="group">
+                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 leading-tight group-hover:text-blue-400 transition-colors">
+                  {project01.title}
+                </h3>
+              </Link>
               
               <p className="text-muted text-base leading-relaxed mb-4">
-                {PROJECT_01.description}
+                {project01.description}
               </p>
               
               <p className="text-muted/80 text-sm leading-relaxed mb-8">
-                {PROJECT_01.details}
+                {project01.details}
               </p>
 
               <div className="mb-8">
@@ -170,7 +114,7 @@ export function Projects() {
                   Key Capabilities
                 </h4>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {PROJECT_01.capabilities.map((item) => (
+                  {project01.capabilities.map((item) => (
                     <li key={item} className="flex items-start text-xs sm:text-sm text-muted/90">
                       <ArrowRight className="h-3.5 w-3.5 mr-2 text-blue-400 mt-0.5 flex-shrink-0" />
                       <span>{item}</span>
@@ -180,16 +124,24 @@ export function Projects() {
               </div>
 
               <div className="flex flex-wrap gap-1.5 mb-8">
-                {PROJECT_01.tech.map((tech) => (
+                {project01.techStack.map((tech) => (
                   <span key={tech} className="text-xs font-mono text-muted/80 bg-background/80 border border-border/80 px-2.5 py-1 rounded-md">
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div>
+              <div className="flex flex-wrap items-center gap-3">
                 <Link
-                  href={PROJECT_01.githubUrl}
+                  href={`/projects/${project01.slug}`}
+                  className={cn(buttonBaseStyles, buttonVariants.accent, "gap-2 text-xs font-mono")}
+                >
+                  <span>Project Details</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+
+                <Link
+                  href={project01.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(buttonBaseStyles, buttonVariants.outline, "gap-2 text-xs font-mono")}
@@ -216,7 +168,6 @@ export function Projects() {
                 </div>
                 
                 <div className="flex flex-col md:flex-row gap-5 md:gap-6 items-start w-full justify-between">
-                  
                   {/* INFRASTRUCTURE COLUMN */}
                   <div className="flex flex-col items-center w-full md:w-1/3 bg-[#080a0f]/60 p-3 rounded-lg border border-border/40">
                     <div className="text-[10px] text-blue-400 mb-3 font-semibold tracking-wider uppercase">
@@ -252,7 +203,6 @@ export function Projects() {
                       </div>
                       <ArrowDown className="h-3.5 w-3.5 text-muted/40" />
                       
-                      {/* Pods block */}
                       <div className="flex flex-col items-center space-y-1.5 w-full border border-blue-500/30 bg-blue-500/5 rounded-md p-2">
                         <span className="text-[10px] text-blue-400 font-semibold mb-1">EKS Pods</span>
                         <div className="border border-border/60 bg-background/80 px-2 py-1 rounded text-center w-full text-[10px] text-muted-foreground">
@@ -287,7 +237,6 @@ export function Projects() {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </Card>
             </div>
@@ -307,23 +256,25 @@ export function Projects() {
             <div className="lg:w-1/2 flex flex-col">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs font-mono text-blue-400 font-bold bg-blue-500/10 border border-blue-500/30 px-2.5 py-0.5 rounded">
-                  {PROJECT_02.id}
+                  {project02.id}
                 </span>
                 <span className="text-xs font-mono text-muted/70 tracking-wide">
-                  {PROJECT_02.label}
+                  {project02.label}
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 leading-tight">
-                {PROJECT_02.title}
-              </h3>
+              <Link href={`/projects/${project02.slug}`} className="group">
+                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 leading-tight group-hover:text-blue-400 transition-colors">
+                  {project02.title}
+                </h3>
+              </Link>
               
               <p className="text-muted text-base leading-relaxed mb-4">
-                {PROJECT_02.description}
+                {project02.description}
               </p>
               
               <p className="text-muted/80 text-sm leading-relaxed mb-8">
-                {PROJECT_02.details}
+                {project02.details}
               </p>
 
               <div className="mb-8">
@@ -331,7 +282,7 @@ export function Projects() {
                   Core Concepts
                 </h4>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {PROJECT_02.capabilities.map((item) => (
+                  {project02.capabilities.map((item) => (
                     <li key={item} className="flex items-start text-xs sm:text-sm text-muted/90">
                       <ArrowRight className="h-3.5 w-3.5 mr-2 text-blue-400 mt-0.5 flex-shrink-0" />
                       <span>{item}</span>
@@ -341,16 +292,24 @@ export function Projects() {
               </div>
 
               <div className="flex flex-wrap gap-1.5 mb-8">
-                {PROJECT_02.tech.map((tech) => (
+                {project02.techStack.map((tech) => (
                   <span key={tech} className="text-xs font-mono text-muted/80 bg-background/80 border border-border/80 px-2.5 py-1 rounded-md">
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div>
+              <div className="flex flex-wrap items-center gap-3">
                 <Link
-                  href={PROJECT_02.githubUrl}
+                  href={`/projects/${project02.slug}`}
+                  className={cn(buttonBaseStyles, buttonVariants.accent, "gap-2 text-xs font-mono")}
+                >
+                  <span>Project Details</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+
+                <Link
+                  href={project02.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(buttonBaseStyles, buttonVariants.outline, "gap-2 text-xs font-mono")}
@@ -384,7 +343,7 @@ export function Projects() {
                   
                   {/* Environments Grid */}
                   <div className="grid grid-cols-1 gap-2.5 w-full max-w-sm">
-                    {PROJECT_02.environments.map((env) => (
+                    {project02.environments?.map((env) => (
                       <div 
                         key={env.name} 
                         className="border border-border/70 bg-[#080a0f]/80 rounded-md p-3 hover:border-blue-500/40 transition-colors flex items-center justify-between"
@@ -429,23 +388,25 @@ export function Projects() {
             <div className="lg:w-1/2 flex flex-col">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs font-mono text-blue-400 font-bold bg-blue-500/10 border border-blue-500/30 px-2.5 py-0.5 rounded">
-                  {PROJECT_03.id}
+                  {project03.id}
                 </span>
                 <span className="text-xs font-mono text-muted/70 tracking-wide">
-                  {PROJECT_03.label}
+                  {project03.label}
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 leading-tight">
-                {PROJECT_03.title}
-              </h3>
+              <Link href={`/projects/${project03.slug}`} className="group">
+                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 leading-tight group-hover:text-blue-400 transition-colors">
+                  {project03.title}
+                </h3>
+              </Link>
               
               <p className="text-muted text-base leading-relaxed mb-4">
-                {PROJECT_03.description}
+                {project03.description}
               </p>
               
               <p className="text-muted/80 text-sm leading-relaxed mb-8">
-                {PROJECT_03.details}
+                {project03.details}
               </p>
 
               <div className="mb-8">
@@ -453,7 +414,7 @@ export function Projects() {
                   Focus Areas
                 </h4>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {PROJECT_03.capabilities.map((item) => (
+                  {project03.capabilities.map((item) => (
                     <li key={item} className="flex items-start text-xs sm:text-sm text-muted/90">
                       <ArrowRight className="h-3.5 w-3.5 mr-2 text-blue-400 mt-0.5 flex-shrink-0" />
                       <span>{item}</span>
@@ -463,16 +424,24 @@ export function Projects() {
               </div>
 
               <div className="flex flex-wrap gap-1.5 mb-8">
-                {PROJECT_03.tech.map((tech) => (
+                {project03.techStack.map((tech) => (
                   <span key={tech} className="text-xs font-mono text-muted/80 bg-background/80 border border-border/80 px-2.5 py-1 rounded-md">
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div>
+              <div className="flex flex-wrap items-center gap-3">
                 <Link
-                  href={PROJECT_03.githubUrl}
+                  href={`/projects/${project03.slug}`}
+                  className={cn(buttonBaseStyles, buttonVariants.accent, "gap-2 text-xs font-mono")}
+                >
+                  <span>Project Details</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+
+                <Link
+                  href={project03.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(buttonBaseStyles, buttonVariants.outline, "gap-2 text-xs font-mono")}
